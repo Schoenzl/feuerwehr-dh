@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0d1117">
+<title>Einsatzmonitor – Bezirk Bruck/Leitha</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d1117;--bg2:#161b22;--bg3:#1c2330;
+  --border:#30363d;--border2:#21262d;
+  --rot:#e53935;--rot-glow:rgba(229,57,53,0.18);--rot-dim:rgba(229,57,53,0.08);
+  --gelb:#f9a825;--gruen:#2ea043;--gruen-glow:rgba(46,160,67,0.15);--blau:#388bfd;
+  --text:#e6edf3;--text2:#8b949e;--text3:#484f58;
+  --head:'Rajdhani',sans-serif;--body:'Inter',sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:14px;min-height:100vh;line-height:1.5}
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(229,57,53,0.07) 0%,transparent 60%),radial-gradient(ellipse 40% 30% at 80% 80%,rgba(56,139,253,0.04) 0%,transparent 50%);pointer-events:none;z-index:0}
+
+/* Header */
+header{position:sticky;top:0;z-index:100;background:rgba(13,17,23,0.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px}
+.hdr{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:62px;gap:16px}
+.logo{display:flex;align-items:center;gap:13px}
+.logo-icon{width:38px;height:38px;background:var(--rot);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;box-shadow:0 0 18px var(--rot-glow)}
+.logo h1{font-family:var(--head);font-size:20px;font-weight:700;letter-spacing:.5px;line-height:1.1}
+.logo p{font-size:11px;color:var(--text2)}
+.hdr-right{display:flex;align-items:center;gap:10px}
+.live-badge{display:flex;align-items:center;gap:7px;background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:5px 12px 5px 8px;font-size:11.5px;color:var(--text2);font-weight:500}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--gruen);box-shadow:0 0 6px var(--gruen);animation:pulse 2s ease-in-out infinite;flex-shrink:0}
+.dot.off{background:var(--rot);box-shadow:0 0 6px var(--rot);animation:none}
+.dot.load{background:var(--gelb);box-shadow:0 0 6px var(--gelb);animation:none}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+.btn-ref{background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text2);width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .15s}
+.btn-ref:hover{border-color:var(--rot);color:var(--rot)}
+.btn-ref.spin{animation:rot .7s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* Stats Bar */
+.sbar{background:var(--bg2);border-bottom:1px solid var(--border2);padding:0 24px}
+.sbar-inner{max-width:1100px;margin:0 auto;display:flex;align-items:stretch}
+.stat{display:flex;flex-direction:column;justify-content:center;padding:10px 24px 10px 0;margin-right:24px;border-right:1px solid var(--border2)}
+.stat:last-of-type{border-right:none}
+.sv{font-family:var(--head);font-size:22px;font-weight:700;line-height:1;transition:color .3s}
+.sv.hot{color:var(--rot)}
+.sl{font-size:10.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-top:2px;font-weight:500}
+.stand{font-size:11px;color:var(--text3);padding:10px 0;margin-left:auto;align-self:center;white-space:nowrap}
+
+/* Content */
+.content{max-width:1100px;margin:0 auto;padding:24px 24px 64px;position:relative;z-index:1}
+
+/* Table Card */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.card-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border)}
+.card-title{font-family:var(--head);font-size:15px;font-weight:600;letter-spacing:.3px;display:flex;align-items:center;gap:8px}
+.pill{background:var(--rot-dim);border:1px solid var(--rot-glow);color:var(--rot);border-radius:20px;font-family:var(--body);font-size:12px;font-weight:600;padding:1px 9px;min-width:24px;text-align:center;transition:all .3s}
+.pill.z{background:var(--bg3);border-color:var(--border);color:var(--text3)}
+
+/* Table */
+.tbl{width:100%;border-collapse:collapse}
+.tbl thead th{padding:10px 16px;text-align:left;font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.9px;color:var(--text3);background:var(--bg3);border-bottom:1px solid var(--border2)}
+.tbl tbody tr{border-bottom:1px solid var(--border2);animation:faderow .22s ease both;transition:background .1s}
+.tbl tbody tr:last-child{border-bottom:none}
+.tbl tbody tr:hover{background:rgba(56,139,253,.04)}
+.tbl tbody td{padding:13px 16px;vertical-align:middle}
+@keyframes faderow{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+/* Type Icon */
+.ticon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px}
+.t-brand{background:rgba(229,57,53,.15)}
+.t-tech{background:rgba(56,139,253,.12)}
+.t-wasser{background:rgba(3,169,244,.12)}
+.t-unfall{background:rgba(249,168,37,.12)}
+.t-misc{background:var(--bg3)}
+
+/* Prio bar */
+.pbar{width:3px;height:30px;border-radius:2px;display:inline-block;vertical-align:middle;margin-right:10px;flex-shrink:0}
+.p-rot{background:var(--rot);box-shadow:0 0 6px var(--rot-glow)}
+.p-gelb{background:var(--gelb)}
+.p-n{background:var(--border)}
+
+.mel{font-weight:500;display:flex;align-items:center}
+.ort{color:var(--text2)}
+.baz-chip{display:inline-block;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:2px 8px;font-size:11.5px;color:var(--text2);font-weight:500}
+.zt{color:var(--text3);font-size:12.5px}
+.ago{display:block;font-size:11px;color:var(--text3);margin-top:1px}
+
+/* Empty / Error */
+.empty{padding:60px 24px;text-align:center}
+.e-icon{width:62px;height:62px;background:var(--gruen-glow);border:1px solid rgba(46,160,67,.3);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 14px}
+.e-title{font-family:var(--head);font-size:18px;font-weight:600;color:var(--gruen);margin-bottom:6px}
+.e-sub{font-size:13px;color:var(--text3)}
+.err{padding:40px 24px;text-align:center}
+.err-ico{font-size:30px;margin-bottom:8px}
+.err-t{font-family:var(--head);font-size:16px;color:var(--rot);margin-bottom:4px}
+.err-s{font-size:12px;color:var(--text3)}
+
+/* Skeleton */
+.sk{background:linear-gradient(90deg,var(--bg3) 25%,var(--bg2) 50%,var(--bg3) 75%);background-size:200% 100%;animation:shim 1.5s infinite;border-radius:4px;display:inline-block}
+@keyframes shim{to{background-position:-200% 0}}
+
+/* Footer */
+footer{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border2);padding:8px 24px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--text3);z-index:50}
+footer a{color:var(--text3);text-decoration:none}
+footer a:hover{color:var(--blau)}
+
+/* Mobile */
+@media(max-width:640px){
+  header,.sbar{padding:0 14px}
+  .content{padding:14px 12px 64px}
+  .sbar-inner .stat:nth-child(3){display:none}
+  .stand{display:none}
+  .hide-m{display:none}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hdr">
+    <div class="logo">
+      <div class="logo-icon">🚒</div>
+      <div>
+        <h1>Einsatzmonitor</h1>
+        <p>Bezirk Bruck an der Leitha · Niederösterreich</p>
+      </div>
+    </div>
+    <div class="hdr-right">
+      <div class="live-badge">
+        <span class="dot load" id="dot"></span>
+        <span id="liveText">Verbinde…</span>
+      </div>
+      <button class="btn-ref" id="refreshBtn" onclick="laden()" title="Aktualisieren">↻</button>
+    </div>
+  </div>
+</header>
+
+<div class="sbar">
+  <div class="sbar-inner">
+    <div class="stat">
+      <div class="sv" id="statN">–</div>
+      <div class="sl">Laufende Einsätze</div>
+    </div>
+    <div class="stat">
+      <div class="sv">BL</div>
+      <div class="sl">Bezirk</div>
+    </div>
+    <div class="stat">
+      <div class="sv" id="statZ">–</div>
+      <div class="sl">Aktualisiert</div>
+    </div>
+    <div class="stand" id="standText"></div>
+  </div>
+</div>
+
+<main class="content">
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-title">
+        Laufende Einsätze
+        <span class="pill z" id="pill">…</span>
+      </div>
+    </div>
+    <div id="tbody">
+      <table class="tbl">
+        <thead><tr>
+          <th style="width:44px"></th>
+          <th>Meldebild</th>
+          <th>Ort</th>
+          <th class="hide-m">BAZ</th>
+          <th class="hide-m">Einsatzbeginn</th>
+        </tr></thead>
+        <tbody>
+          <tr><td><div class="ticon t-misc"><span class="sk" style="width:16px;height:16px;border-radius:4px"></span></div></td><td><span class="sk" style="width:180px;height:13px"></span></td><td><span class="sk" style="width:110px;height:13px"></span></td><td class="hide-m"><span class="sk" style="width:60px;height:12px"></span></td><td class="hide-m"><span class="sk" style="width:90px;height:12px"></span></td></tr>
+          <tr><td><div class="ticon t-misc"><span class="sk" style="width:16px;height:16px;border-radius:4px"></span></div></td><td><span class="sk" style="width:140px;height:13px"></span></td><td><span class="sk" style="width:90px;height:13px"></span></td><td class="hide-m"><span class="sk" style="width:60px;height:12px"></span></td><td class="hide-m"><span class="sk" style="width:90px;height:12px"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div style="display:flex;gap:16px">
+    <span>FF Deutsch Haslau</span>
+    <span>Datenquelle: <a href="https://www.feuerwehr-krems.at/ShowArtikelSpeed.asp?Artikel=5078&filter=03" target="_blank">WASTL NÖ</a></span>
+  </div>
+  <span>Auto-Refresh alle 60 Sek.</span>
+</footer>
+
+<script>
+const PROXY_URL = "https://DEINE-URL.onrender.com";
+
+function getTyp(m) {
+  m = (m||"").toLowerCase();
+  if(m.includes("brand")||m.match(/\bb[1-4]\b/)||m.includes("feuer")) return{i:"🔥",c:"t-brand",p:"p-rot"};
+  if(m.includes("tech")||m.match(/\bt[1-4]\b/)||m.includes("bergung"))  return{i:"⚙️",c:"t-tech",p:"p-gelb"};
+  if(m.includes("wasser")||m.includes("überflut")||m.includes("hochwasser")) return{i:"🌊",c:"t-wasser",p:"p-n"};
+  if(m.includes("unfall")||m.includes("vku")||m.includes("verkehr"))    return{i:"🚗",c:"t-unfall",p:"p-gelb"};
+  if(m.includes("sturm")||m.includes("baum"))                           return{i:"🌪️",c:"t-misc",p:"p-n"};
+  if(m.includes("übung"))                                               return{i:"📋",c:"t-misc",p:"p-n"};
+  return{i:"🚒",c:"t-misc",p:"p-n"};
+}
+
+function ago(str) {
+  if(!str) return "";
+  const x=str.match(/(\d{2})\.(\d{2})\.(\d{4})\s+(\d{2}):(\d{2})/);
+  if(!x) return "";
+  const d=new Date(`${x[3]}-${x[2]}-${x[1]}T${x[4]}:${x[5]}:00`);
+  const m=Math.floor((Date.now()-d)/60000);
+  if(m<1)  return "gerade eben";
+  if(m<60) return `vor ${m} Min.`;
+  return `vor ${Math.floor(m/60)} Std.`;
+}
+
+function render(data) {
+  const dot=document.getElementById("dot");
+  const lt=document.getElementById("liveText");
+  const statN=document.getElementById("statN");
+  const statZ=document.getElementById("statZ");
+  const pill=document.getElementById("pill");
+  const tbody=document.getElementById("tbody");
+  const stand=document.getElementById("standText");
+
+  const zeit=data.letzte_aktualisierung
+    ? new Date(data.letzte_aktualisierung).toLocaleTimeString("de-AT",{hour:"2-digit",minute:"2-digit"})
+    : "–";
+
+  dot.className = data.fehler ? "dot off" : "dot";
+  lt.textContent = data.fehler ? "Fehler" : "Live";
+  statZ.textContent = zeit;
+  stand.textContent = data.stand || "";
+
+  const e = data.einsaetze || [];
+  statN.textContent = e.length;
+  statN.className = "sv" + (e.length > 0 ? " hot" : "");
+  pill.textContent = e.length;
+  pill.className = "pill" + (e.length === 0 ? " z" : "");
+
+  if(data.fehler && e.length===0) {
+    tbody.innerHTML=`<div class="err"><div class="err-ico">⚠️</div><div class="err-t">Verbindungsfehler</div><div class="err-s">${data.fehler}</div></div>`;
+    return;
+  }
+  if(e.length===0) {
+    tbody.innerHTML=`<div class="empty"><div class="e-icon">✅</div><div class="e-title">Keine laufenden Einsätze</div><div class="e-sub">Im Bezirk Bruck/Leitha sind derzeit keine Einsätze gemeldet.</div></div>`;
+    return;
+  }
+
+  const rows=e.map((r,i)=>{
+    const t=getTyp(r.meldebild);
+    const a=ago(r.beginn);
+    return `<tr style="animation-delay:${i*.04}s">
+      <td><div class="ticon ${t.c}">${t.i}</div></td>
+      <td><div class="mel"><span class="pbar ${t.p}"></span>${r.meldebild||"–"}</div></td>
+      <td class="ort">${r.ort||"–"}</td>
+      <td class="hide-m"><span class="baz-chip">${r.baz||"–"}</span></td>
+      <td class="zt hide-m">${r.beginn||"–"}${a?`<span class="ago">${a}</span>`:""}</td>
+    </tr>`;
+  }).join("");
+
+  tbody.innerHTML=`<table class="tbl"><thead><tr>
+    <th style="width:44px"></th>
+    <th>Meldebild</th><th>Ort</th>
+    <th class="hide-m">BAZ</th><th class="hide-m">Einsatzbeginn</th>
+  </tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+async function laden() {
+  const btn=document.getElementById("refreshBtn");
+  btn.classList.add("spin");
+  document.getElementById("dot").className="dot load";
+  try {
+    const res=await fetch(PROXY_URL,{cache:"no-store"});
+    render(await res.json());
+  } catch(err) {
+    render({einsaetze:[],fehler:err.message,letzte_aktualisierung:""});
+  } finally {
+    btn.classList.remove("spin");
+  }
+}
+
+laden();
+setInterval(laden, 60000);
+</script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+# Keine externen Dependencies nötig – nur Python Standard Library
