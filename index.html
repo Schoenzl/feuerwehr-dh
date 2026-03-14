@@ -149,6 +149,13 @@ nav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(13,17,23,
 .kontakt-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:15px;text-decoration:none;transition:all .15s}
 .kontakt-btn:hover{border-color:var(--rot);background:var(--rot-dim)}
 
+/* ── BLAULICHT IFRAME ── */
+.blaulicht-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:12px;border-top:2px solid var(--rot);overflow:hidden;margin-bottom:16px;position:relative}
+.blaulicht-wrap iframe{width:100%;height:calc(100vh - 200px);min-height:450px;border:none;display:block}
+.blaulicht-fallback{padding:50px 20px;text-align:center}
+.nd-link{display:inline-flex;align-items:center;gap:6px;background:var(--rot);color:white;text-decoration:none;font-size:13px;font-weight:600;padding:10px 18px;border-radius:8px;transition:opacity .15s}
+.nd-link:hover{opacity:.85}
+
 /* ── MOBILE ── */
 @media(max-width:480px){
   header{padding:0 14px}
@@ -273,11 +280,18 @@ nav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(13,17,23,
 <!-- EINSÄTZE -->
 <div class="page" id="page-einsaetze">
   <div class="page-content">
-    <div class="section-label">
-      <h2>Bruck an der Leitha · NÖ</h2>
-      <div class="linie"></div>
-      <span class="count-pill bl-pill pill-zero" id="einsCountBL">–</span>
+    <div class="section-label"><h2>FF Deutsch Haslau · Einsatz</h2><div class="linie"></div></div>
+
+    <div class="blaulicht-wrap">
+      <iframe
+        src="https://v4.dashboard.prod.blaulichtsms.net/#/screen-saver"
+        title="BlaulichtSMS Einsatzmonitor"
+        allowfullscreen
+        allow="autoplay">
+      </iframe>
     </div>
+
+    <div class="section-label" style="margin-top:4px"><h2>Bezirksübersicht · NÖ</h2><div class="linie"></div></div>
     <div class="card" style="border-top:2px solid var(--rot)">
       <table class="tbl">
         <thead><tr><th style="width:40px"></th><th>Meldebild</th><th>Ort</th><th class="hide-m">BAZ</th><th class="hide-m">Einsatzbeginn</th></tr></thead>
@@ -286,23 +300,8 @@ nav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(13,17,23,
         </tbody>
       </table>
     </div>
-
-    <div class="section-label" style="margin-top:6px">
-      <h2>Neusiedl am See · Bgld</h2>
-      <div class="linie"></div>
-      <span class="count-pill nd-pill pill-zero" id="einsCountND">–</span>
-    </div>
-    <div class="card" style="border-top:2px solid var(--bgld)">
-      <table class="tbl">
-        <thead><tr><th style="width:40px"></th><th>Alarmstufe</th><th>Ort / Feuerwehr</th><th class="hide-m">BAZ</th><th class="hide-m">Zeit</th></tr></thead>
-        <tbody id="einsTbodyND">
-          <tr><td><div class="ticon t-misc"><span class="sk" style="width:14px;height:14px;border-radius:3px"></span></div></td><td><span class="sk" style="width:160px;height:12px"></span></td><td><span class="sk" style="width:100px;height:12px"></span></td><td class="hide-m"><span class="sk" style="width:55px;height:12px"></span></td><td class="hide-m"><span class="sk" style="width:80px;height:12px"></span></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div style="text-align:right;font-size:10.5px;color:var(--text3)">
-      NÖ: <a href="https://www.feuerwehr-krems.at/ShowArtikelSpeed.asp?Artikel=5078&filter=03" target="_blank" style="color:var(--text3)">WASTL NÖ</a> &nbsp;·&nbsp;
-      Bgld: <a href="https://einsatz.lsz-b.at" target="_blank" style="color:var(--text3)">LSZ Burgenland</a>
+    <div style="text-align:right;font-size:10.5px;color:var(--text3);margin-top:-10px;margin-bottom:16px">
+      Quelle: <a href="https://www.feuerwehr-krems.at/ShowArtikelSpeed.asp?Artikel=5078&filter=03" target="_blank" style="color:var(--text3)">WASTL NÖ – Bezirk Bruck/Leitha</a>
     </div>
   </div>
 </div>
@@ -514,20 +513,11 @@ function render(data) {
     : buildRows(nd, 4);
 
   // Einsätze Page BL
-  setPill("einsCountBL", bl.length, "bl-pill");
   const ebl = document.getElementById("einsTbodyBL");
-  ebl.innerHTML = data.fehler_bl && bl.length===0
+  if(ebl) ebl.innerHTML = data.fehler_bl && bl.length===0
     ? errRow(data.fehler_bl)
     : bl.length===0 ? emptyRow("Im Bezirk Bruck/Leitha sind derzeit keine Einsätze gemeldet.")
     : buildRows(bl, 5);
-
-  // Einsätze Page ND
-  setPill("einsCountND", nd.length, "nd-pill");
-  const end = document.getElementById("einsTbodyND");
-  end.innerHTML = data.fehler_nd && nd.length===0
-    ? errRow(data.fehler_nd)
-    : nd.length===0 ? emptyRow("Im Bezirk Neusiedl/See sind derzeit keine Einsätze gemeldet.")
-    : buildRows(nd, 5);
 }
 
 // ── Daten laden ─────────────────────────────────────────
@@ -548,6 +538,8 @@ async function laden() {
 
 laden();
 setInterval(laden, 60000);
+
+
 </script>
 </body>
 </html>
