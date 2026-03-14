@@ -14,16 +14,16 @@
   --border:#30363d;--border2:#21262d;
   --rot:#e53935;--rot-glow:rgba(229,57,53,0.18);--rot-dim:rgba(229,57,53,0.08);
   --gelb:#f9a825;--gruen:#2ea043;--gruen-glow:rgba(46,160,67,0.15);--blau:#388bfd;
-  --bgld:#e65100;--bgld-dim:rgba(230,81,0,0.1);--bgld-glow:rgba(230,81,0,0.2);
+  --bgld:#e65100;--bgld-dim:rgba(230,81,0,0.1);--bgld-glow:rgba(230,81,0,0.25);
   --text:#e6edf3;--text2:#8b949e;--text3:#484f58;
   --head:'Rajdhani',sans-serif;--body:'Inter',sans-serif;
 }
 body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:14px;min-height:100vh;line-height:1.5}
-body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(229,57,53,0.07) 0%,transparent 60%),radial-gradient(ellipse 40% 30% at 80% 80%,rgba(56,139,253,0.04) 0%,transparent 50%);pointer-events:none;z-index:0}
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(229,57,53,0.07) 0%,transparent 60%);pointer-events:none;z-index:0}
 
 /* Header */
 header{position:sticky;top:0;z-index:100;background:rgba(13,17,23,0.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px}
-.hdr{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:62px;gap:16px}
+.hdr{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:62px;gap:16px}
 .logo{display:flex;align-items:center;gap:13px}
 .logo-icon{width:38px;height:38px;background:var(--rot);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;box-shadow:0 0 18px var(--rot-glow)}
 .logo h1{font-family:var(--head);font-size:20px;font-weight:700;letter-spacing:.5px;line-height:1.1}
@@ -39,100 +39,88 @@ header{position:sticky;top:0;z-index:100;background:rgba(13,17,23,0.93);backdrop
 .btn-ref.spin{animation:rot .7s linear infinite}
 @keyframes rot{to{transform:rotate(360deg)}}
 
-/* Stats Bar */
-.sbar{background:var(--bg2);border-bottom:1px solid var(--border2);padding:0 24px}
-.sbar-inner{max-width:1100px;margin:0 auto;display:flex;align-items:stretch}
-.stat{display:flex;flex-direction:column;justify-content:center;padding:10px 24px 10px 0;margin-right:24px;border-right:1px solid var(--border2)}
-.stat:last-of-type{border-right:none}
-.sv{font-family:var(--head);font-size:22px;font-weight:700;line-height:1;transition:color .3s}
-.sv.hot{color:var(--rot)}
-.sl{font-size:10.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-top:2px;font-weight:500}
-.stand{font-size:11px;color:var(--text3);padding:10px 0;margin-left:auto;align-self:center;white-space:nowrap}
-
-/* Tabs */
-.tabs-wrap{max-width:1100px;margin:0 auto;padding:20px 24px 0}
-.tabs{display:flex;gap:4px;border-bottom:1px solid var(--border)}
-.tab{font-family:var(--head);font-size:14px;font-weight:600;padding:10px 18px;cursor:pointer;border-radius:8px 8px 0 0;color:var(--text2);border:1px solid transparent;border-bottom:none;background:transparent;transition:all .15s;letter-spacing:.3px;display:flex;align-items:center;gap:8px}
-.tab:hover{color:var(--text);background:var(--bg2)}
-.tab.active{color:var(--text);background:var(--bg2);border-color:var(--border);margin-bottom:-1px}
-.tab.active.bl{border-top:2px solid var(--rot)}
-.tab.active.nd{border-top:2px solid var(--bgld)}
-.tab-pill{font-family:var(--body);font-size:11px;font-weight:600;border-radius:10px;padding:1px 7px;min-width:20px;text-align:center}
-.tab.bl .tab-pill{background:var(--rot-dim);color:var(--rot);border:1px solid var(--rot-glow)}
-.tab.nd .tab-pill{background:var(--bgld-dim);color:var(--bgld);border:1px solid var(--bgld-glow)}
-.tab-pill.z{background:var(--bg3);color:var(--text3);border-color:var(--border)}
-
 /* Content */
-.content{max-width:1100px;margin:0 auto;padding:16px 24px 64px;position:relative;z-index:1}
-.tab-panel{display:none}
-.tab-panel.active{display:block}
+.content{max-width:900px;margin:0 auto;padding:20px 24px 64px;position:relative;z-index:1;display:flex;flex-direction:column;gap:20px}
 
-/* LSZ Hinweis */
-.lsz-hinweis{background:var(--bgld-dim);border:1px solid var(--bgld-glow);border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--bgld);display:flex;align-items:center;gap:8px}
-.lsz-hinweis.hidden{display:none}
+/* Bezirk Block */
+.bezirk-block{}
 
-/* Table Card */
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:0 12px 12px 12px;overflow:hidden}
-.card-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border)}
-.card-title{font-family:var(--head);font-size:15px;font-weight:600;letter-spacing:.3px;display:flex;align-items:center;gap:8px}
-.pill{border-radius:20px;font-family:var(--body);font-size:12px;font-weight:600;padding:1px 9px;min-width:24px;text-align:center;transition:all .3s}
-.pill.bl-pill{background:var(--rot-dim);border:1px solid var(--rot-glow);color:var(--rot)}
-.pill.nd-pill{background:var(--bgld-dim);border:1px solid var(--bgld-glow);color:var(--bgld)}
-.pill.z{background:var(--bg3);border:1px solid var(--border);color:var(--text3)}
+.bezirk-label{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.bezirk-label h2{font-family:var(--head);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text3)}
+.bezirk-label .linie{flex:1;height:1px;background:var(--border2)}
+.bezirk-label .count{font-family:var(--head);font-size:13px;font-weight:700;padding:1px 10px;border-radius:20px}
+.bl-count{background:var(--rot-dim);border:1px solid var(--rot-glow);color:var(--rot)}
+.nd-count{background:var(--bgld-dim);border:1px solid var(--bgld-glow);color:var(--bgld)}
+.count.z{background:var(--bg3);border:1px solid var(--border);color:var(--text3)}
 
-/* Quelle Badge */
-.q-badge{display:inline-block;font-size:10px;font-weight:600;padding:1px 6px;border-radius:4px;margin-left:6px;vertical-align:middle}
-.q-bl{background:var(--rot-dim);color:var(--rot);border:1px solid var(--rot-glow)}
-.q-nd{background:var(--bgld-dim);color:var(--bgld);border:1px solid var(--bgld-glow)}
+/* Card */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.card.bl-card{border-top:2px solid var(--rot)}
+.card.nd-card{border-top:2px solid var(--bgld)}
 
 /* Table */
 .tbl{width:100%;border-collapse:collapse}
-.tbl thead th{padding:10px 16px;text-align:left;font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.9px;color:var(--text3);background:var(--bg3);border-bottom:1px solid var(--border2)}
+.tbl thead th{padding:9px 16px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.9px;color:var(--text3);background:var(--bg3);border-bottom:1px solid var(--border2)}
 .tbl tbody tr{border-bottom:1px solid var(--border2);animation:faderow .22s ease both;transition:background .1s}
 .tbl tbody tr:last-child{border-bottom:none}
-.tbl tbody tr:hover{background:rgba(56,139,253,.04)}
-.tbl tbody td{padding:13px 16px;vertical-align:middle}
+.tbl tbody tr:hover{background:rgba(255,255,255,.02)}
+.tbl tbody td{padding:12px 16px;vertical-align:middle}
 @keyframes faderow{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 
-.ticon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px}
+.ticon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
 .t-brand{background:rgba(229,57,53,.15)}
 .t-tech{background:rgba(56,139,253,.12)}
 .t-wasser{background:rgba(3,169,244,.12)}
 .t-unfall{background:rgba(249,168,37,.12)}
 .t-misc{background:var(--bg3)}
 
-.pbar{width:3px;height:30px;border-radius:2px;display:inline-block;vertical-align:middle;margin-right:10px;flex-shrink:0}
-.p-rot{background:var(--rot);box-shadow:0 0 6px var(--rot-glow)}
+.pbar{width:3px;height:28px;border-radius:2px;display:inline-block;vertical-align:middle;margin-right:10px;flex-shrink:0}
+.p-rot{background:var(--rot);box-shadow:0 0 5px var(--rot-glow)}
 .p-gelb{background:var(--gelb)}
 .p-n{background:var(--border)}
 
-.mel{font-weight:500;display:flex;align-items:center}
-.ort{color:var(--text2)}
-.baz-chip{display:inline-block;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:2px 8px;font-size:11.5px;color:var(--text2);font-weight:500}
-.zt{color:var(--text3);font-size:12.5px}
+.mel{font-weight:500;font-size:13.5px;display:flex;align-items:center}
+.ort{color:var(--text2);font-size:13px}
+.baz-chip{display:inline-block;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:2px 8px;font-size:11px;color:var(--text2);font-weight:500}
+.zt{color:var(--text3);font-size:12px}
 .ago{display:block;font-size:11px;color:var(--text3);margin-top:1px}
 
-.empty{padding:60px 24px;text-align:center}
-.e-icon{width:62px;height:62px;background:var(--gruen-glow);border:1px solid rgba(46,160,67,.3);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 14px}
-.e-title{font-family:var(--head);font-size:18px;font-weight:600;color:var(--gruen);margin-bottom:6px}
-.e-sub{font-size:13px;color:var(--text3)}
-.err{padding:40px 24px;text-align:center}
-.err-t{font-family:var(--head);font-size:16px;color:var(--rot);margin-bottom:4px}
-.err-s{font-size:12px;color:var(--text3)}
+/* Empty */
+.empty{padding:36px 20px;text-align:center}
+.e-icon{font-size:28px;margin-bottom:8px}
+.e-title{font-family:var(--head);font-size:16px;font-weight:600;color:var(--gruen);margin-bottom:4px}
+.e-sub{font-size:12px;color:var(--text3)}
 
+/* Fehler */
+.err-box{padding:20px;text-align:center}
+.err-t{font-family:var(--head);font-size:14px;color:var(--rot);margin-bottom:3px}
+.err-s{font-size:11px;color:var(--text3)}
+
+/* ND Hinweis Box */
+.nd-hinweis{background:var(--bgld-dim);border:1px solid var(--bgld-glow);border-radius:12px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.nd-hinweis-text h3{font-family:var(--head);font-size:16px;font-weight:600;color:var(--bgld);margin-bottom:4px}
+.nd-hinweis-text p{font-size:12px;color:var(--text2);line-height:1.5}
+.nd-link{display:inline-flex;align-items:center;gap:6px;background:var(--bgld);color:white;text-decoration:none;font-size:13px;font-weight:600;padding:9px 16px;border-radius:8px;white-space:nowrap;transition:opacity .15s}
+.nd-link:hover{opacity:.85}
+
+/* Stand */
+.stand-bar{max-width:900px;margin:0 auto;padding:10px 24px 0;display:flex;justify-content:flex-end}
+.stand-txt{font-size:11px;color:var(--text3)}
+
+/* Skeleton */
 .sk{background:linear-gradient(90deg,var(--bg3) 25%,var(--bg2) 50%,var(--bg3) 75%);background-size:200% 100%;animation:shim 1.5s infinite;border-radius:4px;display:inline-block}
 @keyframes shim{to{background-position:-200% 0}}
 
+/* Footer */
 footer{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border2);padding:8px 24px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--text3);z-index:50}
 footer a{color:var(--text3);text-decoration:none}
 footer a:hover{color:var(--blau)}
 
 @media(max-width:640px){
-  header,.sbar{padding:0 14px}
-  .tabs-wrap,.content{padding-left:12px;padding-right:12px}
-  .sbar-inner .stat:nth-child(3){display:none}
-  .stand{display:none}
+  header,.stand-bar{padding-left:14px;padding-right:14px}
+  .content{padding:14px 12px 64px}
   .hide-m{display:none}
+  .nd-hinweis{flex-direction:column}
 }
 </style>
 </head>
@@ -157,64 +145,52 @@ footer a:hover{color:var(--blau)}
   </div>
 </header>
 
-<div class="sbar">
-  <div class="sbar-inner">
-    <div class="stat">
-      <div class="sv" id="statGesamt">–</div>
-      <div class="sl">Einsätze gesamt</div>
-    </div>
-    <div class="stat">
-      <div class="sv" id="statBL" style="color:var(--rot)">–</div>
-      <div class="sl">Bruck/Leitha</div>
-    </div>
-    <div class="stat">
-      <div class="sv" id="statND" style="color:var(--bgld)">–</div>
-      <div class="sl">Neusiedl/See</div>
-    </div>
-    <div class="stand" id="standText"></div>
-  </div>
-</div>
-
-<div class="tabs-wrap">
-  <div class="tabs">
-    <div class="tab bl active" onclick="switchTab('bl')">
-      🟥 Bruck/Leitha <span class="tab-pill z" id="pillBL">–</span>
-    </div>
-    <div class="tab nd" onclick="switchTab('nd')">
-      🟧 Neusiedl/See <span class="tab-pill z" id="pillND">–</span>
-    </div>
-  </div>
-</div>
+<div class="stand-bar"><span class="stand-txt" id="standText"></span></div>
 
 <main class="content">
-  <!-- Tab BL -->
-  <div class="tab-panel active" id="panel-bl">
-    <div class="card">
-      <div class="card-hdr">
-        <div class="card-title">Laufende Einsätze – Bezirk Bruck/Leitha <span class="pill bl-pill z" id="countBL">…</span></div>
-      </div>
-      <div id="tbody-bl">
-        <table class="tbl"><thead><tr><th style="width:44px"></th><th>Meldebild</th><th>Ort</th><th class="hide-m">BAZ</th><th class="hide-m">Einsatzbeginn</th></tr></thead>
-        <tbody><tr><td><div class="ticon t-misc"><span class="sk" style="width:16px;height:16px;border-radius:4px"></span></div></td><td><span class="sk" style="width:180px;height:13px"></span></td><td><span class="sk" style="width:110px;height:13px"></span></td><td class="hide-m"><span class="sk" style="width:60px;height:12px"></span></td><td class="hide-m"><span class="sk" style="width:90px;height:12px"></span></td></tr></tbody></table>
-      </div>
+
+  <!-- ══ Bruck/Leitha ══ -->
+  <div class="bezirk-block">
+    <div class="bezirk-label">
+      <h2>Bruck an der Leitha · NÖ</h2>
+      <div class="linie"></div>
+      <span class="count bl-count z" id="countBL">–</span>
+    </div>
+    <div class="card bl-card" id="cardBL">
+      <table class="tbl">
+        <thead><tr>
+          <th style="width:42px"></th>
+          <th>Meldebild</th>
+          <th>Ort</th>
+          <th class="hide-m">BAZ</th>
+          <th class="hide-m">Einsatzbeginn</th>
+        </tr></thead>
+        <tbody id="tbody-bl">
+          <tr><td><div class="ticon t-misc"><span class="sk" style="width:14px;height:14px;border-radius:3px"></span></div></td><td><span class="sk" style="width:160px;height:13px"></span></td><td><span class="sk" style="width:100px;height:13px"></span></td><td class="hide-m"><span class="sk" style="width:55px;height:12px"></span></td><td class="hide-m"><span class="sk" style="width:85px;height:12px"></span></td></tr>
+          <tr><td><div class="ticon t-misc"><span class="sk" style="width:14px;height:14px;border-radius:3px"></span></div></td><td><span class="sk" style="width:130px;height:13px"></span></td><td><span class="sk" style="width:80px;height:13px"></span></td><td class="hide-m"><span class="sk" style="width:55px;height:12px"></span></td><td class="hide-m"><span class="sk" style="width:85px;height:12px"></span></td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <!-- Tab ND -->
-  <div class="tab-panel" id="panel-nd">
-    <div id="lsz-hinweis" class="lsz-hinweis hidden">
-      ℹ️ LSZ Burgenland API wird abgerufen – Daten folgen in Kürze
+  <!-- ══ Neusiedl/See ══ -->
+  <div class="bezirk-block">
+    <div class="bezirk-label">
+      <h2>Neusiedl am See · Bgld</h2>
+      <div class="linie"></div>
+      <span class="count nd-count" id="countND">extern</span>
     </div>
-    <div class="card">
-      <div class="card-hdr">
-        <div class="card-title">Laufende Einsätze – Bezirk Neusiedl/See <span class="pill nd-pill z" id="countND">…</span></div>
+    <div class="nd-hinweis">
+      <div class="nd-hinweis-text">
+        <h3>LSZ Burgenland – Einsatzkarte</h3>
+        <p>Einsätze im Bezirk Neusiedl/See werden von der<br>Landessicherheitszentrale Burgenland bereitgestellt.</p>
       </div>
-      <div id="tbody-nd">
-        <table class="tbl"><thead><tr><th style="width:44px"></th><th>Meldebild</th><th>Ort / Feuerwehr</th><th class="hide-m">BAZ</th><th class="hide-m">Einsatzbeginn</th></tr></thead>
-        <tbody><tr><td><div class="ticon t-misc"><span class="sk" style="width:16px;height:16px;border-radius:4px"></span></div></td><td><span class="sk" style="width:180px;height:13px"></span></td><td><span class="sk" style="width:110px;height:13px"></span></td><td class="hide-m"><span class="sk" style="width:60px;height:12px"></span></td><td class="hide-m"><span class="sk" style="width:90px;height:12px"></span></td></tr></tbody></table>
-      </div>
+      <a class="nd-link" href="https://einsatz.lsz-b.at/?einsaetze=Neusiedl am See" target="_blank">
+        🔗 Einsätze öffnen ↗
+      </a>
     </div>
   </div>
+
 </main>
 
 <footer>
@@ -228,16 +204,6 @@ footer a:hover{color:var(--blau)}
 
 <script>
 const PROXY_URL = "https://wastl-proxy.onrender.com";
-
-let aktTab = "bl";
-
-function switchTab(tab) {
-  aktTab = tab;
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
-  document.querySelector(`.tab.${tab}`).classList.add("active");
-  document.getElementById(`panel-${tab}`).classList.add("active");
-}
 
 function getTyp(m) {
   m = (m||"").toLowerCase();
@@ -261,94 +227,64 @@ function ago(str) {
   return `vor ${Math.floor(m/60)} Std.`;
 }
 
-function buildTable(einsaetze, emptyMsg) {
-  if(!einsaetze || einsaetze.length===0) {
-    return `<div class="empty"><div class="e-icon">✅</div><div class="e-title">Keine laufenden Einsätze</div><div class="e-sub">${emptyMsg}</div></div>`;
+function renderBL(data) {
+  const einsaetze = data.einsaetze_bl || data.einsaetze || [];
+  const count = document.getElementById("countBL");
+  const tbody = document.getElementById("tbody-bl");
+
+  count.textContent = einsaetze.length;
+  count.className = "count bl-count" + (einsaetze.length === 0 ? " z" : "");
+
+  if(data.fehler_bl && einsaetze.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="5"><div class="err-box"><div class="err-t">⚠️ Verbindungsfehler</div><div class="err-s">${data.fehler_bl||data.fehler||""}</div></div></td></tr>`;
+    return;
   }
-  const rows = einsaetze.map((e,i) => {
+
+  if(einsaetze.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="5"><div class="empty"><div class="e-icon">✅</div><div class="e-title">Keine laufenden Einsätze</div><div class="e-sub">Im Bezirk Bruck/Leitha sind derzeit keine Einsätze gemeldet.</div></div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = einsaetze.map((e,i) => {
     const t=getTyp(e.meldebild);
     const a=ago(e.beginn);
     return `<tr style="animation-delay:${i*.04}s">
       <td><div class="ticon ${t.c}">${t.i}</div></td>
       <td><div class="mel"><span class="pbar ${t.p}"></span>${e.meldebild||"–"}</div></td>
       <td class="ort">${e.ort||"–"}</td>
-      <td class="zt hide-m"><span class="baz-chip">${e.baz||"–"}</span></td>
+      <td class="hide-m"><span class="baz-chip">${e.baz||"–"}</span></td>
       <td class="zt hide-m">${e.beginn||"–"}${a?`<span class="ago">${a}</span>`:""}</td>
     </tr>`;
   }).join("");
-  return `<table class="tbl"><thead><tr><th style="width:44px"></th><th>Meldebild</th><th>Ort</th><th class="hide-m">BAZ</th><th class="hide-m">Einsatzbeginn</th></tr></thead><tbody>${rows}</tbody></table>`;
-}
-
-function render(data) {
-  const dot = document.getElementById("dot");
-  const liveText = document.getElementById("liveText");
-  const standText = document.getElementById("standText");
-
-  const zeit = data.letzte_aktualisierung
-    ? new Date(data.letzte_aktualisierung).toLocaleTimeString("de-AT",{hour:"2-digit",minute:"2-digit"})
-    : "–";
-
-  const hatFehler = data.fehler_bl && data.fehler_nd;
-  dot.className = hatFehler ? "dot off" : "dot";
-  liveText.textContent = hatFehler ? "Fehler" : "Live";
-  standText.textContent = `Stand: ${zeit} Uhr`;
-
-  const bl = data.einsaetze_bl || data.einsaetze || [];
-  const nd = data.einsaetze_nd || [];
-  const gesamt = bl.length + nd.length;
-
-  // Stats
-  document.getElementById("statGesamt").textContent = gesamt;
-  document.getElementById("statGesamt").className = "sv" + (gesamt > 0 ? " hot" : "");
-  document.getElementById("statBL").textContent = bl.length;
-  document.getElementById("statND").textContent = nd.length;
-
-  // Pills
-  const setPill = (id, n, cls) => {
-    const el = document.getElementById(id);
-    el.textContent = n;
-    el.className = "tab-pill" + (n === 0 ? " z" : "");
-  };
-  setPill("pillBL", bl.length, "bl");
-  setPill("pillND", nd.length, "nd");
-
-  const setCount = (id, n, cls) => {
-    const el = document.getElementById(id);
-    el.textContent = n;
-    el.className = `pill ${cls}` + (n === 0 ? " z" : "");
-  };
-  setCount("countBL", bl.length, "bl-pill");
-  setCount("countND", nd.length, "nd-pill");
-
-  // Tabellen
-  document.getElementById("tbody-bl").innerHTML = data.fehler_bl && bl.length===0
-    ? `<div class="err"><div class="err-t">⚠️ Verbindungsfehler</div><div class="err-s">${data.fehler_bl}</div></div>`
-    : buildTable(bl, "Im Bezirk Bruck/Leitha sind derzeit keine Einsätze gemeldet.");
-
-  // LSZ Hinweis
-  const hinweis = document.getElementById("lsz-hinweis");
-  if(!data.lsz_verfuegbar) {
-    hinweis.classList.remove("hidden");
-    hinweis.textContent = "ℹ️ LSZ Burgenland API nicht erreichbar – Daten werden weiter versucht abzurufen.";
-  } else {
-    hinweis.classList.add("hidden");
-  }
-
-  document.getElementById("tbody-nd").innerHTML = !data.lsz_verfuegbar
-    ? `<div class="empty"><div class="e-icon">📡</div><div class="e-title">Wird geladen…</div><div class="e-sub">LSZ Burgenland API wird versucht zu verbinden.</div></div>`
-    : buildTable(nd, "Im Bezirk Neusiedl/See sind derzeit keine Einsätze gemeldet.");
 }
 
 async function laden() {
   const btn = document.getElementById("refreshBtn");
+  const dot = document.getElementById("dot");
+  const liveText = document.getElementById("liveText");
+  const standText = document.getElementById("standText");
+
   btn.classList.add("spin");
-  document.getElementById("dot").className = "dot load";
+  dot.className = "dot load";
+
   try {
     const res = await fetch(PROXY_URL, {cache:"no-store"});
-    render(await res.json());
+    const data = await res.json();
+
+    const zeit = data.letzte_aktualisierung
+      ? new Date(data.letzte_aktualisierung).toLocaleTimeString("de-AT",{hour:"2-digit",minute:"2-digit"})
+      : "–";
+
+    dot.className = data.fehler ? "dot off" : "dot";
+    liveText.textContent = data.fehler ? "Fehler" : "Live";
+    standText.textContent = `Letzte Aktualisierung: ${zeit} Uhr`;
+
+    renderBL(data);
   } catch(err) {
-    document.getElementById("dot").className = "dot off";
-    document.getElementById("liveText").textContent = "Fehler";
+    dot.className = "dot off";
+    liveText.textContent = "Fehler";
+    document.getElementById("tbody-bl").innerHTML =
+      `<tr><td colspan="5"><div class="err-box"><div class="err-t">⚠️ Verbindungsfehler</div><div class="err-s">${err.message}</div></div></td></tr>`;
   } finally {
     btn.classList.remove("spin");
   }
