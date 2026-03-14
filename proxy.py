@@ -115,7 +115,13 @@ def fetch_lsz():
     with urlopen(req, timeout=15) as resp:
         html = resp.read().decode("utf-8", errors="replace")
 
-    # Rohen Text extrahieren – alle sichtbaren Texte in Reihenfolge
+    # Nur den "Laufend"-Bereich – alles VOR "Zuletzt aktualisiert"
+    # Die Seite zeigt: Laufend → 12h → 24h
+    # "Zuletzt aktualisiert" markiert Ende des Laufend-Blocks
+    if "Zuletzt aktualisiert" in html:
+        html = html[:html.index("Zuletzt aktualisiert")]
+
+    # Rohen Text extrahieren
     clean = re.sub(r'<script[^>]*>.*?</script>', '', html, flags=re.DOTALL)
     clean = re.sub(r'<style[^>]*>.*?</style>', '', clean, flags=re.DOTALL)
     tokens = re.findall(r'>([^<]+)<', clean)
