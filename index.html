@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0d1117">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="FF Deutsch Haslau">
+<title>FF Deutsch Haslau</title>
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d1117;--bg2:#161b22;--bg3:#1c2330;
+  --border:#30363d;--border2:#21262d;
+  --rot:#e53935;--rot-glow:rgba(229,57,53,0.18);--rot-dim:rgba(229,57,53,0.08);
+  --gelb:#f9a825;--gruen:#2ea043;--gruen-glow:rgba(46,160,67,0.15);--blau:#388bfd;
+  --bgld:#e65100;--bgld-dim:rgba(230,81,0,0.1);--bgld-glow:rgba(230,81,0,0.25);
+  --text:#e6edf3;--text2:#8b949e;--text3:#484f58;
+  --head:'Rajdhani',sans-serif;--body:'Inter',sans-serif;
+  --nav-h:64px;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:14px;min-height:100vh;line-height:1.5;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(229,57,53,0.07) 0%,transparent 60%);pointer-events:none;z-index:0}
+
+/* ── HEADER ── */
+header{position:sticky;top:0;z-index:100;background:rgba(13,17,23,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 20px}
+.hdr{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:58px;gap:12px}
+.logo{display:flex;align-items:center;gap:11px}
+.logo-icon{width:36px;height:36px;background:var(--rot);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 0 16px var(--rot-glow)}
+.logo h1{font-family:var(--head);font-size:19px;font-weight:700;letter-spacing:.4px;line-height:1.1}
+.logo p{font-size:10.5px;color:var(--text2)}
+.hdr-right{display:flex;align-items:center;gap:8px}
+.live-badge{display:flex;align-items:center;gap:6px;background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:4px 10px 4px 7px;font-size:11px;color:var(--text2);font-weight:500}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--gruen);box-shadow:0 0 5px var(--gruen);animation:pulse 2s ease-in-out infinite;flex-shrink:0}
+.dot.off{background:var(--rot);box-shadow:0 0 5px var(--rot);animation:none}
+.dot.load{background:var(--gelb);box-shadow:0 0 5px var(--gelb);animation:none}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+.btn-ref{background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text2);width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;transition:all .15s}
+.btn-ref:hover{border-color:var(--rot);color:var(--rot)}
+.btn-ref.spin{animation:rotspin .7s linear infinite}
+@keyframes rotspin{to{transform:rotate(360deg)}}
+
+/* ── BOTTOM NAV ── */
+nav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(13,17,23,0.97);backdrop-filter:blur(16px);border-top:1px solid var(--border);height:var(--nav-h);display:flex;align-items:stretch;padding:0 4px;padding-bottom:env(safe-area-inset-bottom)}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;border-radius:10px;margin:6px 2px;transition:all .15s;border:none;background:transparent;color:var(--text3);padding:0 2px;-webkit-tap-highlight-color:transparent}
+.nav-item:hover{color:var(--text2)}
+.nav-item.active{color:var(--rot)}
+.nav-item .nav-icon{font-size:20px;line-height:1;transition:transform .2s}
+.nav-item.active .nav-icon{transform:scale(1.1)}
+.nav-item .nav-label{font-size:9.5px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;line-height:1}
+.nav-badge{position:relative;display:inline-block}
+.nav-badge-count{position:absolute;top:-5px;right:-8px;background:var(--rot);color:white;font-size:9px;font-weight:700;border-radius:10px;padding:0 4px;min-width:16px;text-align:center;line-height:16px;display:none}
+.nav-badge-count.show{display:block}
+
+/* ── PAGES ── */
+.page{display:none;min-height:calc(100vh - 58px - var(--nav-h));padding-bottom:calc(var(--nav-h) + 16px)}
+.page.active{display:block;animation:pagein .2s ease both}
+@keyframes pagein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.page-content{max-width:960px;margin:0 auto;padding:18px 20px}
+
+/* ── CARDS & GEMEINSAM ── */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.card-header{padding:13px 18px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-family:var(--head);font-size:15px;font-weight:600;letter-spacing:.3px;display:flex;align-items:center;gap:8px}
+.section-label{display:flex;align-items:center;gap:10px;margin-bottom:10px;margin-top:4px}
+.section-label h2{font-family:var(--head);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text3)}
+.section-label .linie{flex:1;height:1px;background:var(--border2)}
+.count-pill{border-radius:20px;font-family:var(--body);font-size:11.5px;font-weight:600;padding:1px 9px;text-align:center;transition:all .3s}
+.bl-pill{background:var(--rot-dim);border:1px solid var(--rot-glow);color:var(--rot)}
+.nd-pill{background:var(--bgld-dim);border:1px solid var(--bgld-glow);color:var(--bgld)}
+.pill-zero{background:var(--bg3);border:1px solid var(--border);color:var(--text3)}
+
+/* ── TABELLE ── */
+.tbl{width:100%;border-collapse:collapse}
+.tbl thead th{padding:9px 16px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.9px;color:var(--text3);background:var(--bg3);border-bottom:1px solid var(--border2)}
+.tbl tbody tr{border-bottom:1px solid var(--border2);animation:faderow .2s ease both;transition:background .1s}
+.tbl tbody tr:last-child{border-bottom:none}
+.tbl tbody tr:hover{background:rgba(255,255,255,.02)}
+.tbl tbody td{padding:11px 16px;vertical-align:middle}
+@keyframes faderow{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+.ticon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.t-brand{background:rgba(229,57,53,.15)}
+.t-tech{background:rgba(56,139,253,.12)}
+.t-wasser{background:rgba(3,169,244,.12)}
+.t-unfall{background:rgba(249,168,37,.12)}
+.t-misc{background:var(--bg3)}
+.pbar{width:3px;height:26px;border-radius:2px;display:inline-block;vertical-align:middle;margin-right:9px}
+.p-rot{background:var(--rot);box-shadow:0 0 5px var(--rot-glow)}
+.p-gelb{background:var(--gelb)}
+.p-n{background:var(--border)}
+.mel{font-weight:500;font-size:13px;display:flex;align-items:center}
+.ort{color:var(--text2);font-size:12.5px}
+.baz-chip{display:inline-block;background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:1px 7px;font-size:11px;color:var(--text2);font-weight:500}
+.zt{color:var(--text3);font-size:12px}
+.ago{display:block;font-size:10.5px;color:var(--text3);margin-top:1px}
+
+/* ── EMPTY / ERROR ── */
+.empty{padding:40px 20px;text-align:center}
+.empty .e-icon{font-size:32px;margin-bottom:10px}
+.empty .e-title{font-family:var(--head);font-size:17px;font-weight:600;color:var(--gruen);margin-bottom:4px}
+.empty .e-sub{font-size:12px;color:var(--text3)}
+.err-row td{padding:20px;text-align:center}
+.err-t{font-family:var(--head);font-size:14px;color:var(--rot);margin-bottom:3px}
+.err-s{font-size:11px;color:var(--text3)}
+
+/* ── SKELETON ── */
+.sk{background:linear-gradient(90deg,var(--bg3) 25%,var(--bg2) 50%,var(--bg3) 75%);background-size:200% 100%;animation:shim 1.5s infinite;border-radius:4px;display:inline-block}
+@keyframes shim{to{background-position:-200% 0}}
+
+/* ── DASHBOARD ── */
+.dash-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.dash-stat{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;text-align:center}
+.dash-stat-val{font-family:var(--head);font-size:28px;font-weight:700;line-height:1;transition:color .3s}
+.dash-stat-val.hot{color:var(--rot)}
+.dash-stat-lbl{font-size:10.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;margin-top:4px}
+.dash-stat.bl-stat{border-top:2px solid var(--rot)}
+.dash-stat.nd-stat{border-top:2px solid var(--bgld)}
+.dash-stat.total-stat{border-top:2px solid var(--blau)}
+.dash-stand{font-size:11px;color:var(--text3);text-align:right;margin-bottom:12px}
+
+/* ── SOPs ── */
+.sop-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:10px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .15s;text-decoration:none;color:inherit}
+.sop-card:hover{border-color:var(--rot);background:var(--bg3)}
+.sop-icon{width:42px;height:42px;border-radius:10px;background:var(--rot-dim);border:1px solid var(--rot-glow);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.sop-body{}
+.sop-title{font-family:var(--head);font-size:15px;font-weight:600;margin-bottom:2px}
+.sop-sub{font-size:12px;color:var(--text2)}
+.sop-arrow{margin-left:auto;color:var(--text3);font-size:16px;flex-shrink:0}
+
+/* ── INFOS ── */
+.info-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:10px}
+.info-card h3{font-family:var(--head);font-size:15px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.info-card p{font-size:13px;color:var(--text2);line-height:1.6}
+.info-card a{color:var(--blau);text-decoration:none}
+.info-card a:hover{text-decoration:underline}
+
+/* ── ERREICHBARKEITEN ── */
+.kontakt-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin-bottom:8px;display:flex;align-items:center;gap:14px}
+.kontakt-avatar{width:40px;height:40px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.kontakt-body{flex:1}
+.kontakt-name{font-weight:600;font-size:13.5px;margin-bottom:1px}
+.kontakt-rolle{font-size:11.5px;color:var(--text2)}
+.kontakt-actions{display:flex;gap:6px}
+.kontakt-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:15px;text-decoration:none;transition:all .15s}
+.kontakt-btn:hover{border-color:var(--rot);background:var(--rot-dim)}
+
+/* ── MOBILE ── */
+@media(max-width:480px){
+  header{padding:0 14px}
+  .page-content{padding:14px 12px}
+  .dash-stats{grid-template-columns:repeat(3,1fr);gap:8px}
+  .dash-stat-val{font-size:22px}
+  .hide-m{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <div class="hdr">
+    <div class="logo">
+      <div class="logo-icon">🚒</div>
+      <div>
+        <h1>FF Deutsch Haslau</h1>
+        <p>Feuerwehr App · Bezirk Bruck/Leitha</p>
+      </div>
+    </div>
+    <div class="hdr-right">
+      <div class="live-badge" id="liveBadge">
+        <span class="dot load" id="dot"></span>
+        <span id="liveText">…</span>
+      </div>
+      <button class="btn-ref" id="refreshBtn" onclick="laden()" title="Aktualisieren">↻</button>
+    </div>
+  </div>
+</header>
+
+<!-- ══ PAGES ══ -->
+
+<!-- DASHBOARD -->
+<div class="page active" id="page-dashboard">
+  <div class="page-content">
+    <div class="dash-stats">
+      <div class="dash-stat total-stat">
+        <div class="dash-stat-val" id="dGesamt">–</div>
+        <div class="dash-stat-lbl">Gesamt</div>
+      </div>
+      <div class="dash-stat bl-stat">
+        <div class="dash-stat-val" id="dBL">–</div>
+        <div class="dash-stat-lbl">Bruck/L.</div>
+      </div>
+      <div class="dash-stat nd-stat">
+        <div class="dash-stat-val" id="dND">–</div>
+        <div class="dash-stat-lbl">Neusiedl</div>
+      </div>
+    </div>
+    <div class="dash-stand" id="dashStand"></div>
+
+    <!-- BL Vorschau -->
+    <div class="section-label">
+      <h2>Bruck an der Leitha · NÖ</h2>
+      <div class="linie"></div>
+      <span class="count-pill bl-pill pill-zero" id="dashCountBL">–</span>
+    </div>
+    <div class="card" style="border-top:2px solid var(--rot)">
+      <table class="tbl">
+        <thead><tr><th style="width:40px"></th><th>Meldebild</th><th>Ort</th><th class="hide-m">Zeit</th></tr></thead>
+        <tbody id="dashTbodyBL">
+          <tr><td><div class="ticon t-misc"><span class="sk" style="width:14px;height:14px;border-radius:3px"></span></div></td><td><span class="sk" style="width:150px;height:12px"></span></td><td><span class="sk" style="width:90px;height:12px"></span></td><td class="hide-m"><span class="sk" style="width:70px;height:12px"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ND Vorschau -->
+    <div class="section-label" style="margin-top:6px">
+      <h2>Neusiedl am See · Bgld</h2>
+      <div class="linie"></div>
+      <span class="count-pill nd-pill pill-zero" id="dashCountND">–</span>
+    </div>
+    <div class="card" style="border-top:2px solid var(--bgld)">
+      <table class="tbl">
+        <thead><tr><th style="width:40px"></th><th>Meldebild</th><th>Ort</th><th class="hide-m">Zeit</th></tr></thead>
+        <tbody id="dashTbodyND">
+          <tr><td><div class="ticon t-misc"><span class="sk" style="width:14px;height:14px;border-radius:3px"></span></div></td><td><span class="sk" style="width:150px;height:12px"></span></td><td><span class="sk" style="width:90px;height:12px"></span></td><td class="hide-m"><span class="sk" style="width:70px;height:12px"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- SOPs -->
+<div class="page" id="page-sops">
+  <div class="page-content">
+    <div class="section-label"><h2>Standard Operating Procedures</h2><div class="linie"></div></div>
+    <a class="sop-card" href="https://schoenzl.github.io/feuerwehr-dh/SOP_Atemschutz_FF_DeutschHaslau.pdf" target="_blank">
+      <div class="sop-icon">😷</div>
+      <div class="sop-body">
+        <div class="sop-title">Atemschutz</div>
+        <div class="sop-sub">MSA Auer BD96 · Dräger Panoramamaske · Anlegekontrolle</div>
+      </div>
+      <div class="sop-arrow">↗</div>
+    </a>
+    <div class="sop-card" style="opacity:.4;cursor:default">
+      <div class="sop-icon">🚒</div>
+      <div class="sop-body">
+        <div class="sop-title">Fahrzeugkunde KLF-W</div>
+        <div class="sop-sub">In Bearbeitung…</div>
+      </div>
+    </div>
+    <div class="sop-card" style="opacity:.4;cursor:default">
+      <div class="sop-icon">💧</div>
+      <div class="sop-body">
+        <div class="sop-title">Löschangriff</div>
+        <div class="sop-sub">In Bearbeitung…</div>
+      </div>
+    </div>
+    <div class="sop-card" style="opacity:.4;cursor:default">
+      <div class="sop-icon">⚙️</div>
+      <div class="sop-body">
+        <div class="sop-title">Technische Hilfeleistung</div>
+        <div class="sop-sub">In Bearbeitung…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EINSÄTZE -->
+<div class="page" id="page-einsaetze">
+  <div class="page-content">
+    <div class="section-label">
+      <h2>Bruck an der Leitha · NÖ</h2>
+      <div class="linie"></div>
+      <span class="count-pill bl-pill pill-zero" id="einsCountBL">–</span>
+    </div>
+    <div class="card" style="border-top:2px solid var(--rot)">
+      <table class="tbl">
+        <thead><tr><th style="width:40px"></th><th>Meldebild</th><th>Ort</th><th class="hide-m">BAZ</th><th class="hide-m">Einsatzbeginn</th></tr></thead>
+        <tbody id="einsTbodyBL">
+          <tr><td><div class="ticon t-misc"><span class="sk" style="width:14px;height:14px;border-radius:3px"></span></div></td><td><span class="sk" style="width:160px;height:12px"></span></td><td><span class="sk" style="width:100px;height:12px"></span></td><td class="hide-m"><span class="sk" style="width:55px;height:12px"></span></td><td class="hide-m"><span class="sk" style="width:80px;height:12px"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-label" style="margin-top:6px">
+      <h2>Neusiedl am See · Bgld</h2>
+      <div class="linie"></div>
+      <span class="count-pill nd-pill pill-zero" id="einsCountND">–</span>
+    </div>
+    <div class="card" style="border-top:2px solid var(--bgld)">
+      <table class="tbl">
+        <thead><tr><th style="width:40px"></th><th>Alarmstufe</th><th>Ort / Feuerwehr</th><th class="hide-m">BAZ</th><th class="hide-m">Zeit</th></tr></thead>
+        <tbody id="einsTbodyND">
+          <tr><td><div class="ticon t-misc"><span class="sk" style="width:14px;height:14px;border-radius:3px"></span></div></td><td><span class="sk" style="width:160px;height:12px"></span></td><td><span class="sk" style="width:100px;height:12px"></span></td><td class="hide-m"><span class="sk" style="width:55px;height:12px"></span></td><td class="hide-m"><span class="sk" style="width:80px;height:12px"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="text-align:right;font-size:10.5px;color:var(--text3)">
+      NÖ: <a href="https://www.feuerwehr-krems.at/ShowArtikelSpeed.asp?Artikel=5078&filter=03" target="_blank" style="color:var(--text3)">WASTL NÖ</a> &nbsp;·&nbsp;
+      Bgld: <a href="https://einsatz.lsz-b.at" target="_blank" style="color:var(--text3)">LSZ Burgenland</a>
+    </div>
+  </div>
+</div>
+
+<!-- INFOS -->
+<div class="page" id="page-infos">
+  <div class="page-content">
+    <div class="section-label"><h2>Informationen</h2><div class="linie"></div></div>
+    <div class="info-card">
+      <h3>🚒 FF Deutsch Haslau</h3>
+      <p>Freiwillige Feuerwehr Deutsch Haslau<br>Bezirk Bruck an der Leitha · Niederösterreich</p>
+    </div>
+    <div class="info-card">
+      <h3>📡 Funk · DMO</h3>
+      <p>Digitalfunk BOS Austria · Betrieb im DMO-Modus bei Einsätzen.<br>Statusmeldungen über Fahrzeugfunk.</p>
+    </div>
+    <div class="info-card">
+      <h3>🗺️ Nützliche Links</h3>
+      <p>
+        <a href="https://einsatz.lsz-b.at/?einsaetze=Neusiedl am See" target="_blank">LSZ Einsatzkarte Burgenland</a><br>
+        <a href="https://www.feuerwehr-krems.at/ShowArtikelSpeed.asp?Artikel=5078&filter=03" target="_blank">WASTL NÖ – Bezirk Bruck/Leitha</a><br>
+        <a href="https://www.noe.gv.at/noe/Feuerwehr" target="_blank">NÖ Landesfeuerwehrverband</a>
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>📱 App installieren</h3>
+      <p>Diese App kann als PWA installiert werden.<br><strong>Android:</strong> Chrome → Menü → „Zum Startbildschirm"<br><strong>iOS:</strong> Safari → Teilen → „Zum Home-Bildschirm"</p>
+    </div>
+  </div>
+</div>
+
+<!-- ERREICHBARKEITEN -->
+<div class="page" id="page-erreichbar">
+  <div class="page-content">
+    <div class="section-label"><h2>Erreichbarkeiten</h2><div class="linie"></div></div>
+    <div class="info-card" style="margin-bottom:12px;padding:10px 14px;font-size:11.5px;color:var(--text3)">
+      ⚠️ Notruf immer über <strong style="color:var(--rot)">122</strong> · Diese Liste dient nur der internen Kommunikation
+    </div>
+
+    <!-- Kommando -->
+    <div class="section-label" style="margin-top:4px"><h2>Kommando</h2><div class="linie"></div></div>
+
+    <div class="kontakt-card">
+      <div class="kontakt-avatar">👨‍🚒</div>
+      <div class="kontakt-body">
+        <div class="kontakt-name">Raphael Schön</div>
+        <div class="kontakt-rolle">BI – Brandinspektor</div>
+      </div>
+      <div class="kontakt-actions">
+        <a class="kontakt-btn" href="tel:+43" title="Anrufen">📞</a>
+        <a class="kontakt-btn" href="sms:+43" title="SMS">💬</a>
+      </div>
+    </div>
+
+    <div class="kontakt-card">
+      <div class="kontakt-avatar">👨‍🚒</div>
+      <div class="kontakt-body">
+        <div class="kontakt-name">Name Nachname</div>
+        <div class="kontakt-rolle">OBI – Oberbrandinspektor</div>
+      </div>
+      <div class="kontakt-actions">
+        <a class="kontakt-btn" href="tel:+43" title="Anrufen">📞</a>
+        <a class="kontakt-btn" href="sms:+43" title="SMS">💬</a>
+      </div>
+    </div>
+
+    <!-- Weitere -->
+    <div class="section-label" style="margin-top:8px"><h2>Weitere Mitglieder</h2><div class="linie"></div></div>
+    <div class="info-card">
+      <p style="color:var(--text3);font-size:12.5px">Erreichbarkeiten werden laufend ergänzt.<br>Füge Kontakte direkt im Code hinzu.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BOTTOM NAV ══ -->
+<nav>
+  <button class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard">
+    <span class="nav-icon">🏠</span>
+    <span class="nav-label">Dashboard</span>
+  </button>
+  <button class="nav-item" onclick="showPage('sops')" id="nav-sops">
+    <span class="nav-icon">📋</span>
+    <span class="nav-label">SOPs</span>
+  </button>
+  <button class="nav-item" onclick="showPage('einsaetze')" id="nav-einsaetze">
+    <span class="nav-badge">
+      <span class="nav-icon">🚨</span>
+      <span class="nav-badge-count" id="navBadge">0</span>
+    </span>
+    <span class="nav-label">Einsätze</span>
+  </button>
+  <button class="nav-item" onclick="showPage('infos')" id="nav-infos">
+    <span class="nav-icon">ℹ️</span>
+    <span class="nav-label">Infos</span>
+  </button>
+  <button class="nav-item" onclick="showPage('erreichbar')" id="nav-erreichbar">
+    <span class="nav-icon">📞</span>
+    <span class="nav-label">Erreichbar</span>
+  </button>
+</nav>
+
+<script>
+const PROXY_URL = "https://wastl-proxy.onrender.com";
+
+// ── Navigation ──────────────────────────────────────────
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.getElementById('nav-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ── Typ Erkennung ───────────────────────────────────────
+function getTyp(m) {
+  m = (m||"").toLowerCase();
+  if(m.includes("brand")||m.match(/\bb[1-4]\b/)||m.includes("feuer")) return{i:"🔥",c:"t-brand",p:"p-rot"};
+  if(m.includes("tech")||m.match(/\bt[1-4]\b/)||m.includes("bergung"))  return{i:"⚙️",c:"t-tech",p:"p-gelb"};
+  if(m.includes("wasser")||m.includes("überflut"))  return{i:"🌊",c:"t-wasser",p:"p-n"};
+  if(m.includes("unfall")||m.includes("vku"))       return{i:"🚗",c:"t-unfall",p:"p-gelb"};
+  if(m.includes("sturm")||m.includes("baum"))       return{i:"🌪️",c:"t-misc",p:"p-n"};
+  if(m.includes("übung"))                           return{i:"📋",c:"t-misc",p:"p-n"};
+  return{i:"🚒",c:"t-misc",p:"p-n"};
+}
+
+function ago(str) {
+  if(!str) return "";
+  const x=str.match(/(\d{2})\.(\d{2})\.(\d{4})\s+(\d{2}):(\d{2})/);
+  if(!x) return "";
+  const d=new Date(`${x[3]}-${x[2]}-${x[1]}T${x[4]}:${x[5]}:00`);
+  const m=Math.floor((Date.now()-d)/60000);
+  if(m<1) return "gerade eben";
+  if(m<60) return `vor ${m} Min.`;
+  return `vor ${Math.floor(m/60)} Std.`;
+}
+
+// ── Tabelle bauen ───────────────────────────────────────
+function buildRows(einsaetze, cols=5) {
+  if(!einsaetze || einsaetze.length===0) return null;
+  return einsaetze.map((e,i) => {
+    const t=getTyp(e.meldebild);
+    const a=ago(e.beginn);
+    return `<tr style="animation-delay:${i*.04}s">
+      <td><div class="ticon ${t.c}">${t.i}</div></td>
+      <td><div class="mel"><span class="pbar ${t.p}"></span>${e.meldebild||"–"}</div></td>
+      <td class="ort">${e.ort||"–"}</td>
+      ${cols>=4?`<td class="hide-m"><span class="baz-chip">${e.baz||"–"}</span></td>`:""}
+      ${cols>=5?`<td class="zt hide-m">${e.beginn||"–"}${a?`<span class="ago">${a}</span>`:""}</td>`:""}
+    </tr>`;
+  }).join("");
+}
+
+function emptyRow(msg, cols=5) {
+  return `<tr><td colspan="${cols}"><div class="empty"><div class="e-icon">✅</div><div class="e-title">Keine Einsätze</div><div class="e-sub">${msg}</div></div></td></tr>`;
+}
+
+function errRow(msg, cols=5) {
+  return `<tr><td colspan="${cols}"><div class="err-row"><div class="err-t">⚠️ Fehler</div><div class="err-s">${msg}</div></div></td></tr>`;
+}
+
+// ── Render ──────────────────────────────────────────────
+function render(data) {
+  const bl = data.einsaetze_bl || data.einsaetze || [];
+  const nd = data.einsaetze_nd || [];
+  const gesamt = bl.length + nd.length;
+
+  // Header Status
+  const zeit = data.letzte_aktualisierung
+    ? new Date(data.letzte_aktualisierung).toLocaleTimeString("de-AT",{hour:"2-digit",minute:"2-digit"})
+    : "–";
+  document.getElementById("dot").className = data.fehler_bl ? "dot off" : "dot";
+  document.getElementById("liveText").textContent = data.fehler_bl ? "Fehler" : "Live";
+
+  // Nav Badge
+  const badge = document.getElementById("navBadge");
+  badge.textContent = gesamt;
+  badge.className = "nav-badge-count" + (gesamt > 0 ? " show" : "");
+
+  // Dashboard Stats
+  const setVal = (id, val, hot) => {
+    const el = document.getElementById(id);
+    el.textContent = val;
+    el.className = "dash-stat-val" + (hot ? " hot" : "");
+  };
+  setVal("dGesamt", gesamt, gesamt > 0);
+  setVal("dBL", bl.length, bl.length > 0);
+  setVal("dND", nd.length, nd.length > 0);
+  document.getElementById("dashStand").textContent = `Stand: ${zeit} Uhr`;
+
+  const setPill = (id, n, cls) => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.textContent = n;
+    el.className = `count-pill ${cls}` + (n===0?" pill-zero":"");
+  };
+
+  // Dashboard BL
+  setPill("dashCountBL", bl.length, "bl-pill");
+  const dbl = document.getElementById("dashTbodyBL");
+  dbl.innerHTML = bl.length===0
+    ? emptyRow("Keine laufenden Einsätze in Bruck/Leitha", 4)
+    : buildRows(bl, 4);
+
+  // Dashboard ND
+  setPill("dashCountND", nd.length, "nd-pill");
+  const dnd = document.getElementById("dashTbodyND");
+  dnd.innerHTML = nd.length===0
+    ? emptyRow("Keine laufenden Einsätze in Neusiedl/See", 4)
+    : buildRows(nd, 4);
+
+  // Einsätze Page BL
+  setPill("einsCountBL", bl.length, "bl-pill");
+  const ebl = document.getElementById("einsTbodyBL");
+  ebl.innerHTML = data.fehler_bl && bl.length===0
+    ? errRow(data.fehler_bl)
+    : bl.length===0 ? emptyRow("Im Bezirk Bruck/Leitha sind derzeit keine Einsätze gemeldet.")
+    : buildRows(bl, 5);
+
+  // Einsätze Page ND
+  setPill("einsCountND", nd.length, "nd-pill");
+  const end = document.getElementById("einsTbodyND");
+  end.innerHTML = data.fehler_nd && nd.length===0
+    ? errRow(data.fehler_nd)
+    : nd.length===0 ? emptyRow("Im Bezirk Neusiedl/See sind derzeit keine Einsätze gemeldet.")
+    : buildRows(nd, 5);
+}
+
+// ── Daten laden ─────────────────────────────────────────
+async function laden() {
+  const btn = document.getElementById("refreshBtn");
+  btn.classList.add("spin");
+  document.getElementById("dot").className = "dot load";
+  try {
+    const res = await fetch(PROXY_URL, {cache:"no-store"});
+    render(await res.json());
+  } catch(err) {
+    document.getElementById("dot").className = "dot off";
+    document.getElementById("liveText").textContent = "Fehler";
+  } finally {
+    btn.classList.remove("spin");
+  }
+}
+
+laden();
+setInterval(laden, 60000);
+</script>
+</body>
+</html>
