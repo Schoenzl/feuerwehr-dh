@@ -180,14 +180,22 @@ footer a:hover{color:var(--blau)}
       <div class="linie"></div>
       <span class="count nd-count" id="countND">extern</span>
     </div>
-    <div class="nd-hinweis">
-      <div class="nd-hinweis-text">
-        <h3>LSZ Burgenland – Einsatzkarte</h3>
-        <p>Einsätze im Bezirk Neusiedl/See werden von der<br>Landessicherheitszentrale Burgenland bereitgestellt.</p>
-      </div>
-      <a class="nd-link" href="https://einsatz.lsz-b.at/?einsaetze=Neusiedl am See" target="_blank">
-        🔗 Einsätze öffnen ↗
-      </a>
+    <div class="card nd-card">
+      <table class="tbl">
+        <thead><tr>
+          <th style="width:42px"></th>
+          <th>Alarmstufe / Meldebild</th>
+          <th>Ort / Feuerwehr</th>
+          <th class="hide-m">BAZ</th>
+          <th class="hide-m">Zeit</th>
+        </tr></thead>
+        <tbody id="tbody-nd">
+          <tr><td><div class="ticon t-misc"><span class="sk" style="width:14px;height:14px;border-radius:3px"></span></div></td><td><span class="sk" style="width:160px;height:13px"></span></td><td><span class="sk" style="width:100px;height:13px"></span></td><td class="hide-m"><span class="sk" style="width:55px;height:12px"></span></td><td class="hide-m"><span class="sk" style="width:85px;height:12px"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="text-align:right;margin-top:6px;font-size:11px;color:var(--text3)">
+      Quelle: <a href="https://einsatz.lsz-b.at" target="_blank" style="color:var(--text3)">LSZ Burgenland</a>
     </div>
   </div>
 
@@ -225,6 +233,36 @@ function ago(str) {
   if(m<1) return "gerade eben";
   if(m<60) return `vor ${m} Min.`;
   return `vor ${Math.floor(m/60)} Std.`;
+}
+
+function renderND(data) {
+  const einsaetze = data.einsaetze_nd || [];
+  const count = document.getElementById("countND");
+  const tbody = document.getElementById("tbody-nd");
+  if (!tbody) return;
+
+  count.textContent = einsaetze.length;
+  count.className = "count nd-count" + (einsaetze.length === 0 ? " z" : "");
+
+  if(data.fehler_nd && einsaetze.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="5"><div class="err-box"><div class="err-t">⚠️ LSZ nicht erreichbar</div><div class="err-s">${data.fehler_nd}</div></div></td></tr>`;
+    return;
+  }
+  if(einsaetze.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="5"><div class="empty"><div class="e-icon">✅</div><div class="e-title">Keine laufenden Einsätze</div><div class="e-sub">Im Bezirk Neusiedl/See sind derzeit keine Einsätze gemeldet.</div></div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = einsaetze.map((e,i) => {
+    const t=getTyp(e.meldebild);
+    const a=ago(e.beginn);
+    return `<tr style="animation-delay:${i*.04}s">
+      <td><div class="ticon ${t.c}">${t.i}</div></td>
+      <td><div class="mel"><span class="pbar ${t.p}"></span>${e.meldebild||"–"}</div></td>
+      <td class="ort">${e.ort||"–"}</td>
+      <td class="hide-m"><span class="baz-chip">${e.baz||"ND"}</span></td>
+      <td class="zt hide-m">${e.beginn||"–"}${a?`<span class="ago">${a}</span>`:""}</td>
+    </tr>`;
+  }).join("");
 }
 
 function renderBL(data) {
@@ -280,6 +318,7 @@ async function laden() {
     standText.textContent = `Letzte Aktualisierung: ${zeit} Uhr`;
 
     renderBL(data);
+    renderND(data);
   } catch(err) {
     dot.className = "dot off";
     liveText.textContent = "Fehler";
